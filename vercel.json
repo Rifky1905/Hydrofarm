@@ -1,5 +1,5 @@
 {
-  "buildCommand": "flutter/bin/flutter build web --release --dart-define=SUPABASE_URL=${SUPABASE_URL:-https://pqsrksenzuszucvgaei.supabase.co} --dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-sb_publishable_6nQ43vYdLI0FNDEtAfdohw_ZbG2AR_X}",
+  "buildCommand": "flutter/bin/flutter build web --release --dart-define=SUPABASE_URL=${SUPABASE_URL:-https://lthmpgagswqwoqltavik.supabase.co} --dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-sb_publishable_EVmRzm0qipcjHiERxK0lww_EC7Ddf7Z}",
   "installCommand": "git clone https://github.com/flutter/flutter.git -b stable --depth 1",
   "outputDirectory": "build/web",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]

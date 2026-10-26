@@ -11,13 +11,13 @@ class SupabaseConfig {
 
   static const String url = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://pqsrksenzuszucvgaei.supabase.co',
+    defaultValue: 'https://lthmpgagswqwoqltavik.supabase.co',
   );
 
   /// "anon public key" (project lama) atau "publishable key" (project baru).
   static const String publishableKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
-    defaultValue: 'sb_publishable_6nQ43vYdLI0FNDEtAfdohw_ZbG2AR_X',
+    defaultValue: 'sb_publishable_EVmRzm0qipcjHiERxK0lww_EC7Ddf7Z',
   );
 
   /// true jika kredensial sudah diisi (bukan placeholder).
