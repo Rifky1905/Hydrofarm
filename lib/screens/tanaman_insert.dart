@@ -68,15 +68,15 @@ class _TanamanInsertState extends State<TanamanInsert> {
       return;
     }
 
-    final tanamanBaru = Tanaman(
-      id: await TanamanService.nextId(),
-      nama: _namaController.text.trim(),
-      jenis: _jenis,
-      tanggalTanam: _tanggalTanam!,
-      umurPanen: int.parse(_umurPanenController.text),
-      status: _status,
-    );
     try {
+      final tanamanBaru = Tanaman(
+        id: await TanamanService.nextId(),
+        nama: _namaController.text.trim(),
+        jenis: _jenis,
+        tanggalTanam: _tanggalTanam!,
+        umurPanen: int.parse(_umurPanenController.text),
+        status: _status,
+      );
       await TanamanService.add(tanamanBaru);
       if (mounted) Navigator.pop(context, tanamanBaru);
     } catch (e) {
