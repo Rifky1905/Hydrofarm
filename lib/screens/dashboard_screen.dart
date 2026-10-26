@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../services/supabase_config.dart';
 import 'login_screen.dart';
 import 'monitoring_screen.dart';
 import 'perawatan_screen.dart';
@@ -30,10 +32,21 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout, color: Color(0xFF16707E)),
             tooltip: 'Logout',
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            ),
+            onPressed: () async {
+              if (SupabaseConfig.isConfigured) {
+                try {
+                  await Supabase.instance.client.auth.signOut();
+                } catch (_) {}
+              }
+              if (context.mounted) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

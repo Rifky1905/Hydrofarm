@@ -76,8 +76,17 @@ class _TanamanInsertState extends State<TanamanInsert> {
       umurPanen: int.parse(_umurPanenController.text),
       status: _status,
     );
-    await TanamanService.add(tanamanBaru);
-    if (mounted) Navigator.pop(context, tanamanBaru);
+    try {
+      await TanamanService.add(tanamanBaru);
+      if (mounted) Navigator.pop(context, tanamanBaru);
+    } catch (e) {
+      debugPrint('Gagal menyimpan tanaman: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menyimpan tanaman: $e')),
+        );
+      }
+    }
   }
 
   @override

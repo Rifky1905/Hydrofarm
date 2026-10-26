@@ -92,8 +92,17 @@ class _TanamanScreenState extends State<TanamanScreen> {
       ),
     );
     if (confirmed == true) {
-      await TanamanService.delete(tanaman.id);
-      _loadData();
+      try {
+        await TanamanService.delete(tanaman.id);
+        _loadData();
+      } catch (e) {
+        debugPrint('Gagal menghapus tanaman: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal menghapus tanaman: $e')),
+          );
+        }
+      }
     }
   }
 

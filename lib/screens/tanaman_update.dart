@@ -91,8 +91,17 @@ class _TanamanUpdateState extends State<TanamanUpdate> {
     t.tanggalTanam = _tanggalTanam!;
     t.umurPanen = int.parse(_umurPanenController.text);
     t.status = _status;
-    await TanamanService.update(t);
-    if (mounted) Navigator.pop(context, t);
+    try {
+      await TanamanService.update(t);
+      if (mounted) Navigator.pop(context, t);
+    } catch (e) {
+      debugPrint('Gagal mengubah tanaman: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal mengubah tanaman: $e')),
+        );
+      }
+    }
   }
 
   @override

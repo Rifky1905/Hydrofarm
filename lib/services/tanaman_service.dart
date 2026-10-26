@@ -80,10 +80,7 @@ class TanamanService {
 
   static Future<void> update(Tanaman tanaman) async {
     if (useRemote) {
-      return _client
-          .from(_table)
-          .update(tanaman.toJson())
-          .eq('id', tanaman.id);
+      return _client.from(_table).update(tanaman.toJson()).eq('id', tanaman.id);
     }
     // Objek dimutasi langsung di halaman update, tidak perlu aksi tambahan.
   }
@@ -103,7 +100,6 @@ class TanamanService {
 }
 
 /// Format tanggal ke bentuk DD/MM/YYYY.
-String formatTanggal(DateTime date) =>
-    '${date.day.toString().padLeft(2, '0')}/'
+String formatTanggal(DateTime date) => '${date.day.toString().padLeft(2, '0')}/'
     '${date.month.toString().padLeft(2, '0')}/'
     '${date.year}';

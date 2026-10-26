@@ -1,16 +1,24 @@
 /// Kredensial project Supabase.
 ///
-/// 1. Buat project di https://supabase.com
-/// 2. Project Settings > API > salin "Project URL" dan "anon public key"
-/// 3. Tempel di bawah ini.
+/// Diambil dari --dart-define saat build (dipakai oleh CI/Vercel):
+///   flutter build web --release \
+///     --dart-define=SUPABASE_URL=https://xxx.supabase.co \
+///     --dart-define=SUPABASE_ANON_KEY=sb_publishable_xxx
+///
+/// defaultValue dipakai saat run lokal tanpa flag.
 class SupabaseConfig {
   SupabaseConfig._();
 
-  static const String url = 'https://pqsrksenrzucszuvcygei.supabase.co';
+  static const String url = String.fromEnvironment(
+    'SUPABASE_URL',
+    defaultValue: 'https://pqsrksenrzucszuvcygei.supabase.co',
+  );
 
   /// "anon public key" (project lama) atau "publishable key" (project baru).
-  static const String publishableKey =
-      'sb_publishable_6nQ43vYdLI0FNDEtAfdohw_ZbG2AR_X';
+  static const String publishableKey = String.fromEnvironment(
+    'SUPABASE_ANON_KEY',
+    defaultValue: 'sb_publishable_6nQ43vYdLI0FNDEtAfdohw_ZbG2AR_X',
+  );
 
   /// true jika kredensial sudah diisi (bukan placeholder).
   static bool get isConfigured =>
