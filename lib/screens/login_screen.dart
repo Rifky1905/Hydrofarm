@@ -61,10 +61,28 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) _showError('Login gagal: ${e.message}');
     } catch (e) {
       debugPrint('Login error: $e');
-      if (mounted) _showError('Terjadi kesalahan: $e');
+      if (mounted) _showOfflineError(e);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  /// Server tidak bisa dijangkau (paused/offline): tawarkan mode offline
+  /// supaya aplikasi tetap bisa dibuka dengan data lokal.
+  void _showOfflineError(Object error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 8),
+        content: Text(
+          'Tidak bisa terhubung ke Supabase.\n'
+          'Cek status project / koneksi internet.\n($error)',
+        ),
+        action: SnackBarAction(
+          label: 'Mode Offline',
+          onPressed: _goToDashboard,
+        ),
+      ),
+    );
   }
 
   InputDecoration _fieldDecoration(String hint) {
