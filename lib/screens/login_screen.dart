@@ -50,18 +50,20 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() => _isLoading = true);
+    Object? loginError;
     try {
       await Supabase.instance.client.auth.signInWithPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
       if (mounted) _goToDashboard();
+      return;
     } on AuthException catch (e) {
+      loginError = e.message;
       debugPrint('Login gagal: ${e.message}');
-      if (mounted) _showError('Login gagal: ${e.message}');
     } catch (e) {
+      loginError = e;
       debugPrint('Login error: $e');
-      if (mounted) _showOfflineError(e);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -69,27 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
     // Fallback akun uji: tetap bisa masuk saat Supabase bermasalah.
     if (_emailController.text.trim() == 'rifkyarya434@gmail.com' &&
         _passwordController.text == 'rifky123') {
-      _showError('Supabase tidak terjangkau — masuk mode offline');
+      _showError(
+        'Masuk mode offline.\nError Supabase: $loginError',
+      );
       _goToDashboard();
+    } else if (mounted) {
+      _showError('Login gagal: $loginError');
     }
-  }
-
-  /// Server tidak bisa dijangkau (paused/offline): tawarkan mode offline
-  /// supaya aplikasi tetap bisa dibuka dengan data lokal.
-  void _showOfflineError(Object error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 8),
-        content: Text(
-          'Tidak bisa terhubung ke Supabase.\n'
-          'Cek status project / koneksi internet.\n($error)',
-        ),
-        action: SnackBarAction(
-          label: 'Mode Offline',
-          onPressed: _goToDashboard,
-        ),
-      ),
-    );
   }
 
   InputDecoration _fieldDecoration(String hint) {
