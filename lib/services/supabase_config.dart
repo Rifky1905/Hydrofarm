@@ -11,7 +11,7 @@ class SupabaseConfig {
 
   static const String url = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://pqsrksenrzucszuvcygei.supabase.co',
+    defaultValue: 'https://pqsrksenzuszucvgaei.supabase.co',
   );
 
   /// "anon public key" (project lama) atau "publishable key" (project baru).
