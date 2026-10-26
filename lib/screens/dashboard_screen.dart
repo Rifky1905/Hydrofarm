@@ -10,6 +10,38 @@ import 'tanaman_screen.dart';
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
+  Future<void> _logout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Yakin ingin keluar dari HydroFarm?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    if (SupabaseConfig.isConfigured) {
+      try {
+        await Supabase.instance.client.auth.signOut();
+      } catch (_) {}
+    }
+    if (context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,21 +64,7 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout, color: Color(0xFF16707E)),
             tooltip: 'Logout',
-            onPressed: () async {
-              if (SupabaseConfig.isConfigured) {
-                try {
-                  await Supabase.instance.client.auth.signOut();
-                } catch (_) {}
-              }
-              if (context.mounted) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              }
-            },
+            onPressed: () => _logout(context),
           ),
         ],
       ),
